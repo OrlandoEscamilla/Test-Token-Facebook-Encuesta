@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Votacion Torneo de Video juegos </title>
+	<style>
+		html {
+		  box-sizing: border-box;
+		}
+		*, *:before, *:after {
+		  box-sizing: inherit;
+		}
+		body{
+			margin: 0;
+			background-color: #bdfc49;
+		}
+		#wrap{
+			
+			margin: 0px auto;
+			width: 960px;
+			height: 540px;
+			background-color: yellow;
+			position: relative;
+		}
+
+
+		#wrap img{
+			width: 100%;
+		}
+		
+		
+		
+	
+		.opcion1, .opcion2{
+			width: 90px;
+			height: 45px;
+			background-color: #fff;
+			border-radius: 5px;
+			
+		}
+		.opcion1{
+			position: absolute;
+			left: 175px;
+			top: 517px;
+		}
+		.opcion2{
+			position: absolute;
+			right: 170px;
+			top: 517px;
+		}
+		
+		.votes{
+			text-align: center;
+			color: #fff;
+			font-weight: 30px;
+			display: block;
+			width: 100%;
+		}	
+		.ct, .ch{
+			width: 100%;
+			display: block;
+			color: #2f2a8d;
+			font-size: 40px;
+			text-align: center;
+			font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+		}
+		.v{
+			text-align: center;
+			font-weight: bold;
+			font-size: 16px;
+			text-align: center;
+			margin-top: 10px;
+			font-family: Verdana, Geneva, sans-serif;
+			color: #fff;
+		}
+
+		#wrap2{		
+			margin: 0px auto;
+			width: 960px;
+			height: 30px;
+			background-color: #bdfc49;
+		}
+		
+	
+
+
+
+	</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.6/lodash.min.js"></script>
+<script>
+"use strict";
+	var applicationaccesstoken='application_access_token_goes_here';
+	var postid='post_id_goes_here';
+	
+
+	/*exmaple*/
+	applicationaccesstoken='EAAEMPnow1ZCQBALIoRr09X5PoT7gITBZBL0t78ZAnK50cr8v6bWWGpVfhNpgMVZCvgW8e8e4yZCkiF0ghuMtENZAC7FRZCeWWmk1p80Up2Y1LheAipE5fHlrFo4CkFJvblbVYOi2KrH5Wbi6erL9GNeBc3RZBsi8nHdHdaJiFyt5KQZDZD';
+	
+	postid='1359511237455803';
+	
+
+	var tc = 251,hc = 221,th = $('.ct'),hh = $('.ch');
+
+	
+	var hint,tint;
+
+
+	function opcion1(){
+		hint = setInterval(function(){hc += 4;hh.text(hc);clearInterval(hint);opcion1();}, _.random(1, 15) * 1000);
+	}
+
+	function opcion2(){
+		tint = setInterval(function(){tc += 1;th.text(hc);clearInterval(tint);opcion2();}, _.random(1, 15) * 1000);
+	}
+
+</script>
+	<div id="wrap">
+			<img src="torneo.gif" alt="Torneo">
+			
+		
+			
+				<div class="opcion1">
+					<div class="avatar1"></div>
+					<div class="meta">
+						
+						<div id="like" class="ch">0</div>
+						<div class="v"></div>
+					</div>
+				</div>
+
+				<div class="opcion2">
+					<div class="avatar2"></div>
+					<div class="meta">
+						
+						<div id="encanta" class="ct">0</div>
+						<div class="v"></div>
+					</div>
+				</div>
+			
+			
+		
+			
+	</div>
+	<div id="wrap2">
+		
+	</div>
+
+<script>
+
+
+	obtener();
+setInterval(function(){
+	obtener();
+}, 3000);
+function obtener(){
+$.getJSON('https://graph.facebook.com/v2.8/?ids='+postid+'&fields=reactions.type(LIKE).limit(0).summary(total_count).as(reactions_like),reactions.type(LOVE).limit(0).summary(total_count).as(reactions_love)&access_token='+applicationaccesstoken+'',function(res){
+		th.text(0 + res[''+postid+''].reactions_love.summary.total_count);
+		hh.text(0 + res[''+postid+''].reactions_like.summary.total_count);
+		setInterval(function(){
+			th.text(parseInt(th.text()) + 1);
+		}, _.random(5, 25) * 1000);
+		setInterval(function(){
+			hh.text(parseInt(hh.text()) + 1);
+		}, _.random(5, 25) * 1000);		
+		console.log(res);
+		$("#like").html( res[''+postid+''].reactions_like.summary.total_count);
+		$("#encanta").html(res[''+postid+''].reactions_love.summary.total_count);
+	});
+}
+</script>
+
+</body>
+</html>
